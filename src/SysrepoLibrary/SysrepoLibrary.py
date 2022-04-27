@@ -89,6 +89,45 @@ class SysrepoLibrary(object):
         self.sessions[connID][sessID].stop()
         del self.sessions[connID][sessID]
 
+    @keyword("Close All Sysrepo Connections And Sessions")
+    def close_all_connections_and_sessions(self):
+        """
+        Closes all open connections and sessions.
+        Example: for usage with `Suite Teardown`
+        """
+        # force a key copy, avoid runtime error for dicitionary len change
+        for connID in tuple(self.conns):
+            for sessID in tuple(self.sessions[connID]):
+                self.close_session(connID, sessID)
+            self.close_connection(connID)
+
+    @keyword("Get Datastore Data")
+    def get_datastore_data(self, connID, sessID, xpath, fmt):
+        """
+        Get a datastore's data.
+
+        :arg connID:
+            An opened connection ID.
+        :arg sessID:
+            An opened session ID, corresponding to the connection.
+        :arg xpath:
+            The datastore's XML path
+        :arg fmt:
+            Format of the returned data.
+            Example: xml
+
+        :returns:
+            The datastore's data in the specified format.
+        """
+        if connID not in self.conns.keys():
+            raise RuntimeError(f"Non-existing connection index {connID}")
+
+        if sessID not in self.sessions[connID]:
+            raise RuntimeError(f"Non-existing session index {sessID}")
+
+        data = self.sessions[connID][sessID].get_data_ly(xpath)
+        return data.print_mem(fmt)
+
     @keyword("Edit Datastore Config")
     def edit_config(self, connID, sessID, data, fmt):
         """
@@ -113,5 +152,32 @@ class SysrepoLibrary(object):
         ctx = self.conns[connID].get_ly_ctx()
         yangData = ctx.parse_data_mem(data, fmt, config=True, strict=True)
         self.sessions[connID][sessID].edit_batch_ly(yangData)
-        data.free()
         self.sessions[connID][sessID].apply_changes()
+
+    @keyword("Edit Datastore Config By File")
+    def edit_config_by_file(self, connID, sessID, fpath, fmt):
+        """
+        Edit a datastore's config file by a file's contents.
+
+        :arg connID:
+            An opened connection ID.
+        :arg sessID:
+            An opened session ID, corresponding to the connection.
+        :arg fpath:
+            Path to the file containing the data.
+        :arg fmt:
+            Format of the returned data.
+            Example: xml
+        """
+        if connID not in self.conns.keys():
+            raise RuntimeError(f"Non-existing connection index {connID}")
+
+        if sessID not in self.sessions[connID]:
+            raise RuntimeError(f"Non-existing session index {sessID}")
+
+        try:
+            with open(fpath, "r") as f:
+                data = f.read().strip()
+                self.edit_config(connID, sessID, data, fmt)
+        except IOError:
+            raise RuntimeError(f"Non-existing file {fpath}")
