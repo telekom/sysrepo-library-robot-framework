@@ -1,35 +1,63 @@
+from robot.api.deco import library, keyword
+
 import sysrepo
 
-class SysrepoLibrary:
-    """SysrepoLibrary is a Robot Framework library for Sysrepo.
+
+@library(scope='GLOBAL')
+class SysrepoLibrary(object):
     """
-    ROBOT_LIBRARY_SCOPE="GLOBAL"
-    ROBOT_LIBRARY_VERSION=__version__
+    SysrepoLibrary is a Robot Framework library for Sysrepo.
+    """
 
     def __init__(self):
         self.conns = {}
         self.sessions = {}
 
-    @keyword
+    @keyword("Open Sysrepo Connection")
     def open_connection(self):
+        """
+        Opens a Sysrepo connection.
+
+        :returns:
+            the connection ID of an opened connection
+        """
         conn = sysrepo.SysrepoConnection()
         connID = 0
         if len(self.conns.keys()) != 0:
             connID = max(self.conns.keys()) + 1
 
-        conns[connID] = conn
+        self.conns[connID] = conn
         self.sessions[connID] = dict()
         return connID
 
-    @keyword
+    @keyword("Close Sysrepo Connection")
     def close_connection(self, connID):
+        """
+        Closes a Sysrepo Connection.
+
+        :arg connID:
+            An opened connection ID.
+        """
         if connID not in self.conns.keys():
             raise RuntimeError(f"Non-existing index {connID}")
         self.conns[connID].disconnect()
         del self.sessions[connID]
 
-    @keyword
+    @keyword("Open Datastore Session")
     def open_session(self, connID, datastore):
+        """
+        Opens a Sysrepo datastore session.
+
+        :arg connID:
+            An opened connection ID.
+
+        :datastore:
+            Specifies which datastore to open a session to.
+            Example: "running"
+
+        :returns:
+            An open session ID.
+        """
         if connID not in self.conns.keys():
             raise RuntimeError(f"Non-existing index {connID}")
         sess = self.conns[connID].start_session(datastore)
@@ -37,12 +65,21 @@ class SysrepoLibrary:
         sessID = 0
         if len(self.sessions[connID].keys()) != 0:
             sessID = max(self.sessions[connID].keys()) + 1
+
         self.sessions[connID][sessID] = sess
 
         return sessID
 
-    @keyword
+    @keyword("Close Datastore Session")
     def close_session(self, connID, sessID):
+        """
+        Closes a Sysrepo datastore session.
+
+        :arg connID:
+            An opened connection ID.
+        :arg sessID:
+            An opened session ID, corrseponding to the connection ID.
+        """
         if connID not in self.conns.keys():
             raise RuntimeError(f"Non-existing connection index {connID}")
 
@@ -52,8 +89,21 @@ class SysrepoLibrary:
         self.sessions[connID][sessID].stop()
         del self.sessions[connID][sessID]
 
-    @keyword
+    @keyword("Edit Datastore Config")
     def edit_config(self, connID, sessID, data, fmt):
+        """
+        Edit a datastore's config file.
+
+        :arg connID:
+            An opened connection ID.
+        :arg sessID:
+            An opened session ID, corresponding to the connection.
+        :arg data:
+            The new config data
+        :arg fmt:
+            Format of the returned data.
+            Example: xml
+        """
         if connID not in self.conns.keys():
             raise RuntimeError(f"Non-existing connection index {connID}")
 
