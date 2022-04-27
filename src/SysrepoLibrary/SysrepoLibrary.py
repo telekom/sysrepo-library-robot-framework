@@ -153,6 +153,7 @@ class SysrepoLibrary(object):
         yangData = ctx.parse_data_mem(data, fmt, config=True, strict=True)
         self.sessions[connID][sessID].edit_batch_ly(yangData)
         self.sessions[connID][sessID].apply_changes()
+        yangData.free()
 
     @keyword("Edit Datastore Config By File")
     def edit_config_by_file(self, connID, sessID, fpath, fmt):
