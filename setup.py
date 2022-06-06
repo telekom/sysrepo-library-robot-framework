@@ -10,8 +10,8 @@ from setuptools import setup, find_packages
 NAME = 'SysrepoLibrary'
 DESCRIPTION = 'A testing library for Robot Framework that utilizes the Sysrepo tool internally.'
 URL = 'https://lab.sartura.hr/dt/robotframework-sysrepolibrary'
-EMAIL = 'juraj.vijtiuk@sartura.hr'
-AUTHOR = 'Juraj Vijtiuk'
+EMAIL = 'juraj.vijtiuk@sartura.hr, andrej.gardijan@sartura.hr'
+AUTHOR = 'Juraj Vijtiuk, Andrej Gardijan'
 REQUIRES_PYTHON = '>=3.6.0'
 VERSION = None  # read __version__.py, a single canonical place for version information
 
