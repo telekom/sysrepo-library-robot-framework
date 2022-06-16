@@ -3,7 +3,7 @@
 A testing library for Robot Framework that utilizes the Sysrepo tool internally.
 
 ## Installation
-Make sure to have Sysrepo and accompanying plugins installed under `libyang1`.
+Make sure to have Sysrepo and accompanying plugins installed under the `devel` branch (the latest libyang and sysrepo version).
 
 Create a virtual environment, activate it and make sure `pip`, `setuptools` and `wheel` are up to date.
 Finally install the package.
