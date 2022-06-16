@@ -126,7 +126,7 @@ class SysrepoLibrary(object):
             raise RuntimeError(f"Non-existing session index {sessID}")
 
         with self.sessions[connID][sessID].get_data_ly(xpath) as data:
-            return data.print_mem(fmt, with_siblings=True)
+            return data.print_mem(fmt, pretty=False, with_siblings=True)
 
     @keyword("Edit Datastore Config")
     def edit_config(self, connID, sessID, data, fmt):
