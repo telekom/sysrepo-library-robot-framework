@@ -1,6 +1,7 @@
 from robot.api.deco import library, keyword
 
 import sysrepo
+import libyang
 
 
 @library(scope='GLOBAL')
@@ -181,5 +182,56 @@ class SysrepoLibrary(object):
             with open(fpath, "r") as f:
                 data = f.read().strip()
                 self.edit_config(connID, sessID, data, fmt)
+        except IOError:
+            raise RuntimeError(f"Non-existing file {fpath}")
+
+    @keyword("Send RPC")
+    def send_rpc(self, connID, rpc, fmt):
+        """
+        Send a RPC.
+
+        :arg connID:
+            An opened connection ID.
+        :arg rpc:
+            Rpc to send.
+        :arg fmt:
+            Format of the returned data.
+            Example: xml
+
+        :returns:
+            The data in the specified format.
+        """
+        if connID not in self.conns.keys():
+            raise RuntimeError(f"Non-existing connection index {connID}")
+
+        with self.conns[connID].get_ly_ctx() as ctx:
+            dnode = ctx.parse_op_mem(fmt, rpc, libyang.DataType.RPC_YANG)
+            data = dnode.print(fmt, out_type=libyang.IOType.MEMORY)
+            dnode.free()
+            return data
+
+    @keyword("Send RPC By File")
+    def send_rpc_by_file(self, connID, fpath, fmt):
+        """
+        Send a RPC by a file's contents.
+
+        :arg connID:
+            An opened connection ID.
+        :arg fpath:
+            Path to the file containing the data.
+        :arg fmt:
+            Format of the returned data.
+            Example: xml
+
+        :returns:
+            The data in the specified format.
+        """
+        if connID not in self.conns.keys():
+            raise RuntimeError(f"Non-existing connection index {connID}")
+
+        try:
+            with open(fpath, "r") as f:
+                rpc = f.read().strip()
+                return self.send_rpc(connID, rpc, fmt)
         except IOError:
             raise RuntimeError(f"Non-existing file {fpath}")
