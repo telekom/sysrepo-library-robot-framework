@@ -1,3 +1,48 @@
+[project]
+name = 	"SysrepoLibrary"
+version = "0.1.0"
+description = "A testing library for Robot Framework that utilizes the Sysrepo tool internally"
+readme = { file = "Readme.md", content-type = "text/markdown" }
+
+requires-python = ">=3.6.0"
+
+license = { file = "LICENSE" }
+
+keywords = ["sysrepo", "robot", "robotframework", "networking", "linux", "testing"]
+
+authors = [
+    { name = "Juraj Vijtiuk", email = "juraj.vijtiuk@sartura.hr" },
+    { name = "Andrej Gardijan", email = "andrej.gardijan@sartura.hr" }
+]
+maintainers = [
+    { name = "Juraj Vijtiuk", email = "juraj.vijtiuk@sartura.hr" },
+    { name = "Andrej Gardijan", email = "andrej.gardijan@sartura.hr" }
+]
+
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Build Tools",
+    "License :: None",
+    "Programming Language :: Python :: 3",
+    "Framework :: Robot Framework",
+    "Framework :: Robot Framework :: Library",
+    "Operating System :: POSIX :: Linux",
+    "Topic :: System :: Networking"
+]
+
+dependencies = [
+    "robotframework",
+	"sysrepo"
+]
+
+
+[project.urls] 
+"Homepage" = "https://lab.sartura.hr/dt/robotframework-sysrepolibrary"
+"Bug Reports" = "https://lab.sartura.hr/dt/robotframework-sysrepolibrary/-/issues"
+"Source" = "https://lab.sartura.hr/dt/robotframework-sysrepolibrary"
+
+
 [build-system]
-requires      = ["setuptools>=42", "wheel"]
+requires      = ["setuptools>=42.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
