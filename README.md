@@ -13,9 +13,15 @@ $ source sysrepolibrary-venv/bin/activate
 $ python3 -m pip install --upgrade pip setuptools wheel build
 ```
 
+To simply install it:
+```
+$ python3 -m pip install .
+```
+
+### The long way
 Build it:
 ```
-python3 -m build
+$ python3 -m build
 ```
 
 Two files should be in the `dist` directory. 
@@ -24,10 +30,8 @@ Newer `pip` versions preferentially install built distributions, but will fall b
 
 Install it:
 ```
-python3 -m pip install path/to/dist/build/file
+$ python3 -m pip install path/to/dist/build/file
 ```
-
-
 
 ## Tests
 `tests/connection.robot` checks if SysrepoLibrary manages to connect and disconnet to Sysrepo, Open and close a session, as well as get, set datastore data. Requires sysrepo-plugin-system.

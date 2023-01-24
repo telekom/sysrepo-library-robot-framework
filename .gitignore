@@ -1,0 +1,6 @@
+build
+dist
+**/log.html
+**/output.xml
+**/report.html
+**/*.diff
