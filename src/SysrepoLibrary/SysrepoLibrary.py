@@ -151,7 +151,10 @@ class SysrepoLibrary(object):
             raise RuntimeError(f"Non-existing session index {sessID}")
 
         with self.conns[connID].get_ly_ctx() as ctx:
-            yangData = ctx.parse_data_mem(data, fmt, no_state=True, strict=True)
+            yangData = ctx.parse_data_mem(data, 
+                                          fmt, 
+                                          no_state=True, 
+                                          strict=True)
 
         self.sessions[connID][sessID].edit_batch_ly(yangData)
         self.sessions[connID][sessID].apply_changes()
