@@ -4,3 +4,5 @@ dist
 **/output.xml
 **/report.html
 **/*.diff
+*-venv
+.tox
