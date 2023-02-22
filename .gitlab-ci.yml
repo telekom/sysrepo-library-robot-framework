@@ -30,7 +30,6 @@ before_script:
 
 build:default:
   stage: build
-  needs: ["build:sysrepo_plugin_system"]
   script:
     - python3 -m pip install .
 
