@@ -52,7 +52,7 @@ class SysrepoLibrary(object):
         :arg connID:
             An opened connection ID.
 
-        :datastore:
+        :arg datastore:
             Specifies which datastore to open a session to.
             Example: "running"
 
