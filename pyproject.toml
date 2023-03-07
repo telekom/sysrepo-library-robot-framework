@@ -40,6 +40,7 @@ dependencies = [
 [project.optional-dependencies]
 docs = [
     "sphinx",
+    "myst-parser",
 ]
 
 tests = [

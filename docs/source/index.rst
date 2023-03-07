@@ -9,6 +9,7 @@ Welcome to SysrepoLibrary's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   readme_link
    SysrepoLibrary
 
 
