@@ -1,5 +1,7 @@
 build
 dist
+src/SysrepoLibrary/__pycache__
+docs/build
 **/log.html
 **/output.xml
 **/report.html
