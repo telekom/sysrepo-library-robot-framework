@@ -1,2 +1,13 @@
-include README.md LICENSE tox.ini
-
+include \
+README.md \
+LICENSE \
+tox.ini \
+.gitlab-ci.yml \
+docs/Makefile \
+docs/make.bat \
+docs/source/SysrepoLibrary.rst \
+docs/source/conf.py \
+docs/source/generated/SysrepoLibrary.rst \
+docs/source/index.rst \
+docs/source/modules.rst \
+docs/source/readme_link.md 
