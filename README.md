@@ -33,11 +33,11 @@ Install it:
 $ python3 -m pip install path/to/dist/build/file
 ```
 
-## Tests
-`tests/connection.robot` checks if SysrepoLibrary manages to connect and disconnet to Sysrepo, Open and close a session, as well as get, set datastore data. Requires sysrepo-plugin-system.
+## Examples
+`examples/connection.robot` shows how SysrepoLibrary connects and disconnets to Sysrepo as well as opens and closes a session.
 Note the root privileges when invoking the command (datastore permission issues otherwise, item not found):
 
 Run:
 
-`tests/ # robot examples`
+`# robot examples`
 
