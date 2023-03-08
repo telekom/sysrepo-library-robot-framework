@@ -16,8 +16,7 @@ before_script:
   - git clone https://github.com/sysrepo/sysrepo.git
   - cd libyang; git checkout devel; mkdir build; cd build; cmake .. -DCMAKE_C_COMPILER=clang; make -j install; cd ../../
   - cd sysrepo; git checkout devel; mkdir build; cd build; cmake .. -DCMAKE_C_COMPILER=clang; make -j install; cd ../../
-  - pip3 install libyang
-  - pip3 install Jinja2
+  - pip3 install libyang Jinja2 rpaframework
 
 
 build:default:
