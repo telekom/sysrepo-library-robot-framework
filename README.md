@@ -33,6 +33,24 @@ Install it:
 $ python3 -m pip install path/to/dist/build/file
 ```
 
+## Documentation
+The documentation is generated using the `Sphinx` documentation generator tool. 
+
+To build the documentation as `HTML` files run while in the root directory:
+```
+$ sphinx-build -b html docs/source docs/build/html
+```
+
+The `-b` option selects a builder in this example it's `HTML`.
+
+To quickly generate the docs use the scripts in the `docs/` directory.
+Execute `make` without an argument while in the directory to see which targets are available.
+
+Example for `HTML`:
+```
+docs/$ make html
+```
+
 ## Examples
 `examples/connection.robot` shows how SysrepoLibrary connects and disconnets to Sysrepo as well as opens and closes a session.
 Note the root privileges when invoking the command (datastore permission issues otherwise, item not found):
