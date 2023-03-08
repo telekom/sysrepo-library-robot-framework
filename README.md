@@ -18,6 +18,11 @@ To simply install it:
 $ python3 -m pip install .
 ```
 
+To install the additional dependencies as well (generating the documentation and testing):
+```
+$ python3 -m pip install .[docs,tests]
+```
+
 ### The long way
 Build it:
 ```
