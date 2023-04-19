@@ -1,5 +1,6 @@
 include \
-README.md \
+*.md \
+CODEOWNERS \
 LICENSE \
 tox.ini \
 .gitlab-ci.yml \
