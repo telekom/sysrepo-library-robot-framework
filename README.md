@@ -17,7 +17,7 @@
   <a href="#licensing">Licensing</a>
 </p>
 
-The goal of this project is to provide a way to use sysreo with the [Robot Framework](https://github.com/robotframework/robotframework).
+The goal of this project is to provide a way to use sysrepo with the [Robot Framework](https://github.com/robotframework/robotframework).
 
 ## About this component
 
