@@ -6,6 +6,7 @@
     <a href="/../../commits/" title="Last Commit"><img src="https://img.shields.io/github/last-commit/telekom/sysrepo-library-robot-framework?style=flat"></a>
     <a href="/../../issues" title="Open Issues"><img src="https://img.shields.io/github/issues/telekom/sysrepo-library-robot-framework?style=flat"></a>
     <a href="./LICENSE" title="License"><img src="https://img.shields.io/badge/License-BSD%203--Clause-blue.svg?style=flat"></a>
+    <a href="https://pypi.org/project/robotframework-sysrepolibrary/" title="PyPi robotframework-sysrepolibrary"><img src="https://img.shields.io/static/v1?label=PyPi&message=robotframework-sysrepolibrary&color=blue&labelColor=yellow"></a>
 </p>
 
 <p align="center">
@@ -35,6 +36,18 @@ The following additional dependencies are required to work on the library:
 * setuptools
 * wheel
 * build
+
+#### Installation
+The recommended installation method is using [pip](http://pip-installer.org):
+```
+$ python3 -m pip install robotframework-sysrepolibrary
+```
+
+With recent versions of `pip` it is also possible to install directly from the [GitHub](https://github.com/telekom/sysrepo-library-robot-framework) repository. 
+To install from the latest source from the master branch, use the following command:
+```
+$ python3 -m pip install git+https://github.com/telekom/sysrepo-library-robot-framework.git
+```
 
 #### Build
 
