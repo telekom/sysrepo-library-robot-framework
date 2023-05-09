@@ -49,9 +49,9 @@ tests = [
 
 
 [project.urls] 
-"Homepage" = "https://lab.sartura.hr/dt/robotframework-sysrepolibrary"
-"Bug Reports" = "https://lab.sartura.hr/dt/robotframework-sysrepolibrary/-/issues"
-"Source" = "https://lab.sartura.hr/dt/robotframework-sysrepolibrary"
+"Homepage" = "https://github.com/telekom/sysrepo-library-robot-framework"
+"Bug Reports" = "https://github.com/telekom/sysrepo-library-robot-framework/issues"
+"Source" = "https://github.com/telekom/sysrepo-library-robot-framework"
 
 
 [build-system]
