@@ -1,0 +1,152 @@
+name: sysrepo-library-robot-framework CI
+
+on:
+  # wildcard match all branches
+  push:
+    branches: "**"
+  pull_request:
+    branches: "**"
+
+jobs:
+  build:
+    name: ${{matrix.compiler-config.name}}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        pip:
+          - {
+            name: "All dependencies: tests, docs",
+            options: ".[tests,docs]",
+            packager: "pip",
+            packages: "pip setuptools wheel build",
+          }
+
+        compiler-config:
+          - {
+            name: "Release, gcc",
+            build-type: "Release",
+            cc: "gcc",
+            options: "-DENABLE_BUILD_TESTS=ON -DSYSTEMD_IFINDEX=1",
+            packager: "sudo apt-get",
+            # no expect because stdout seems to be redirected
+            packages: "libcmocka-dev libsystemd-dev ntp ssh",
+          }
+          - {
+            name: "Release, clang",
+            build-type: "Release",
+            cc: "clang",
+            options: "-DENABLE_BUILD_TESTS=ON -DSYSTEMD_IFINDEX=1",
+            packager: "sudo apt-get",
+            packages: "libcmocka-dev libsystemd-dev ntp ssh",
+          }
+          - {
+            name: "Debug, gcc",
+            build-type: "Debug",
+            cc: "gcc",
+            options: "-DENABLE_BUILD_TESTS=ON -DSYSTEMD_IFINDEX=1",
+            packager: "sudo apt-get",
+            packages: "libcmocka-dev libsystemd-dev ntp ssh",
+          }
+          - {
+            name: "Debug, clang",
+            build-type: "Debug",
+            cc: "clang",
+            options: "-DENABLE_BUILD_TESTS=ON -DSYSTEMD_IFINDEX=1",
+            packager: "sudo apt-get",
+            packages: "libcmocka-dev libsystemd-dev ntp ssh",
+          }
+          - {
+            name: "ASAN and UBSAN",
+            build-type: "Debug",
+            cc: "clang",
+            options: "-DCMAKE_C_FLAGS=-fsanitize=address,undefined -DENABLE_BUILD_TESTS=ON -DSYSTEMD_IFINDEX=1",
+            packager: "sudo apt-get",
+            packages: "libcmocka-dev libsystemd-dev ntp ssh",
+          }
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: 'recursive'
+
+      - uses: actions/setup-python@v4
+        with:
+          # multiple Python versions to be used by Tox
+          python-version: |
+            3.7
+            3.8
+            3.9
+            3.10
+          cache: pip
+          cache-dependency-path: pyproject.toml
+
+      - name: Deps-packages
+        shell: bash
+        run: |
+          ${{matrix.compiler-config.packager}} update
+          if ${{matrix.compiler-config.packages != ''}}
+            then ${{matrix.compiler-config.packager}} install ${{matrix.compiler-config.packages}}
+          fi
+
+          if ${{matrix.pip.packages != ''}}
+            then ${{matrix.pip.packager}} install --upgrade ${{matrix.pip.packages}}
+          fi
+
+      - name: Deps-libyang
+        shell: bash
+        run: |
+          git clone https://github.com/cesnet/libyang
+          cd libyang
+          CC=${{matrix.compiler-config.cc}} cmake -B build
+          cmake --build build
+          sudo cmake --install build
+          sudo ldconfig
+
+      - name: Deps-sysrepo
+        shell: bash
+        run: |
+          git clone https://github.com/sysrepo/sysrepo
+          cd sysrepo 
+          CC=${{matrix.compiler-config.cc}} cmake -B build
+          cmake --build build
+          sudo cmake --install build
+          sudo ldconfig
+
+      - name: Deps-srpc
+        shell: bash
+        run: |
+          git clone --recurse-submodules https://github.com/telekom/sysrepo-plugins-common
+          cd sysrepo-plugins-common
+          CC=${{matrix.compiler-config.cc}} cmake -B build
+          cmake --build build
+          sudo cmake --install build
+          sudo ldconfig
+
+      - name: Deps-umgmt
+        shell: bash
+        run: |
+          git clone --recurse-submodules https://github.com/sartura/umgmt
+          cd umgmt
+          CC=${{matrix.compiler-config.cc}} cmake -B build
+          cmake --build build
+          sudo cmake --install build
+          sudo ldconfig
+
+      - name: Deps-robot
+        shell: bash
+        run: |
+          ${{matrix.pip.packager}} install ${{matrix.pip.options}}
+          sudo sysctl -e fs.protected_regular=0
+
+      - name: Examples
+        shell: bash
+        working-directory: ${{github.workspace}}/examples
+        run: |
+          robot .
+
+      - name: Tox Tests
+        shell: bash
+        run: |
+          tox
+
