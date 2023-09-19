@@ -179,22 +179,21 @@ class SysrepoLibrary(object):
         self.sessions[connID][sessID].apply_changes()
         yangData.free()
 
-    def xml_to_json(data: str) -> str:
+    def xml_to_json(self, data: str) -> str:
         return json.dumps(xmltodict.parse(data))
 
-    def is_json_empty(data: str) -> bool:
+    def is_json_empty(self, data: str) -> bool:
         jobj = json.loads(data)
         return jobj.length() == 0
 
-    def is_data_empty(fmt: str, data: str) -> bool:
+    def is_data_empty(self, fmt: str, data: str) -> bool:
         is_empty = False
 
-        if (fmt != self.FORMATS["xml"]
-            and fmt != self.FORMATS["json"]):
+        if fmt != self.FORMATS["xml"] and fmt != self.FORMATS["json"]:
             raise RuntimeError(f"Non-supported format {fmt}")
 
         if fmt == self.FORMATS["xml"]:
-            data = xml_to_json(data)
+            data = self.xml_to_json(data)
 
         if self.is_json_empty(data):
             is_empty = True
