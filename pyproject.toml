@@ -1,6 +1,6 @@
 [project]
 name = 	"robotframework-sysrepolibrary"
-version = "0.1.1"
+version = "0.2.1"
 description = "A testing library for Robot Framework that utilizes the Sysrepo tool internally"
 readme = { file = "README.md", content-type = "text/markdown" }
 
@@ -9,7 +9,6 @@ requires-python = ">=3.6.0"
 license = { file = "LICENSE" }
 
 keywords = ["sysrepo", "robot", "robotframework", "networking", "linux", "testing"]
-
 authors = [
     { name = "Juraj Vijtiuk", email = "juraj.vijtiuk@sartura.hr" },
     { name = "Andrej Gardijan", email = "andrej.gardijan@sartura.hr" }
@@ -33,7 +32,8 @@ classifiers = [
 
 dependencies = [
     "robotframework",
-	"sysrepo"
+    "sysrepo",
+    "xmltodict"
 ]
 
 
