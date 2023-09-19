@@ -15,6 +15,8 @@ from robot.api.deco import library, keyword
 
 import sysrepo
 import libyang
+import json
+import xmltodict
 
 
 @library(scope='GLOBAL')
@@ -26,6 +28,10 @@ class SysrepoLibrary(object):
     def __init__(self):
         self.conns = {}
         self.sessions = {}
+        self.FORMATS = {
+            "xml": "XML",
+            "json": "JSON"
+        }
 
     @keyword("Open Sysrepo Connection")
     def open_connection(self):
@@ -162,6 +168,64 @@ class SysrepoLibrary(object):
 
         if sessID not in self.sessions[connID]:
             raise RuntimeError(f"Non-existing session index {sessID}")
+
+        with self.conns[connID].get_ly_ctx() as ctx:
+            yangData = ctx.parse_data_mem(data,
+                                          fmt,
+                                          no_state=True,
+                                          strict=True)
+
+        self.sessions[connID][sessID].edit_batch_ly(yangData)
+        self.sessions[connID][sessID].apply_changes()
+        yangData.free()
+
+    def xml_to_json(data: str) -> str:
+        return json.dumps(xmltodict.parse(data))
+
+    def is_json_empty(data: str) -> bool:
+        jobj = json.loads(data)
+        return jobj.length() == 0
+
+    def is_data_empty(fmt: str, data: str) -> bool:
+        is_empty = False
+
+        if (fmt != self.FORMATS["xml"]
+            and fmt != self.FORMATS["json"]):
+            raise RuntimeError(f"Non-supported format {fmt}")
+
+        if fmt == self.FORMATS["xml"]:
+            data = xml_to_json(data)
+
+        if self.is_json_empty(data):
+            is_empty = True
+
+        return is_empty
+
+    @keyword("Edit Datastore Config Safe")
+    def edit_config_safe(self, connID, sessID, data, fmt, xpath):
+        """
+        Edit a datastore's config file.
+
+        :arg connID:
+            An opened connection ID.
+        :arg sessID:
+            An opened session ID, corresponding to the connection.
+        :arg data:
+            The new config data
+        :arg fmt:
+            Format of the returned data.
+            Example: xml
+        :arg xpath:
+            xpath to delete if data is null
+        """
+        if connID not in self.conns.keys():
+            raise RuntimeError(f"Non-existing connection index {connID}")
+
+        if sessID not in self.sessions[connID]:
+            raise RuntimeError(f"Non-existing session index {sessID}")
+
+        if self.is_data_empty(data):
+            self.sessions[connID][sessID].delete_item(xpath)
 
         with self.conns[connID].get_ly_ctx() as ctx:
             yangData = ctx.parse_data_mem(data,
