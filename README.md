@@ -4,6 +4,7 @@
 
 <p align="center">
     <a href="/../../commits/" title="Last Commit"><img src="https://img.shields.io/github/last-commit/telekom/sysrepo-library-robot-framework?style=flat"></a>
+    <a href="https://github.com/telekom/sysrepo-library-robot-framework/actions/workflows/ci.yml" title="CI"><img src="https://github.com/telekom/sysrepo-library-robot-framework/workflows/sysrepo-library-robot-framework%20CI/badge.svg"></a>
     <a href="/../../issues" title="Open Issues"><img src="https://img.shields.io/github/issues/telekom/sysrepo-library-robot-framework?style=flat"></a>
     <a href="./LICENSE" title="License"><img src="https://img.shields.io/badge/License-BSD%203--Clause-blue.svg?style=flat"></a>
     <a href="https://pypi.org/project/robotframework-sysrepolibrary/" title="PyPi robotframework-sysrepolibrary"><img src="https://img.shields.io/static/v1?label=PyPi&message=robotframework-sysrepolibrary&color=blue&labelColor=yellow"></a>
