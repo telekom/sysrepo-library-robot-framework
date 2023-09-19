@@ -32,6 +32,7 @@ The following additional dependencies are required to work on the library:
 
 * libyang
 * sysrepo
+* xmltodict
 * pip
 * setuptools
 * wheel
