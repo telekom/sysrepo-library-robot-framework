@@ -179,7 +179,7 @@ class SysrepoLibrary(object):
         self.sessions[connID][sessID].apply_changes()
         yangData.free()
 
-    def xml_to_json(self, data: str) -> str:
+    def __xml_to_json(self, data: str) -> str:
         """
         Convert XML string to JSON
 
@@ -188,7 +188,7 @@ class SysrepoLibrary(object):
         """
         return json.dumps(xmltodict.parse(data))
 
-    def is_json_empty(self, data: str) -> bool:
+    def __is_json_empty(self, data: str) -> bool:
         """
         Check if a JSON string is empty
 
@@ -198,7 +198,7 @@ class SysrepoLibrary(object):
         jobj = json.loads(data)
         return jobj.length() == 0
 
-    def is_data_empty(self, fmt: str, data: str) -> bool:
+    def __is_data_empty(self, fmt: str, data: str) -> bool:
         """
         Check if the new datastore config is empty
 
@@ -213,9 +213,9 @@ class SysrepoLibrary(object):
             raise RuntimeError(f"Non-supported format {fmt}")
 
         if fmt == self.FORMATS["xml"]:
-            data = self.xml_to_json(data)
+            data = self.__xml_to_json(data)
 
-        if self.is_json_empty(data):
+        if self.__is_json_empty(data):
             is_empty = True
 
         return is_empty
@@ -243,7 +243,7 @@ class SysrepoLibrary(object):
         if sessID not in self.sessions[connID]:
             raise RuntimeError(f"Non-existing session index {sessID}")
 
-        if self.is_data_empty(data):
+        if self.__is_data_empty(fmt, data):
             self.sessions[connID][sessID].delete_item(xpath)
 
         with self.conns[connID].get_ly_ctx() as ctx:
