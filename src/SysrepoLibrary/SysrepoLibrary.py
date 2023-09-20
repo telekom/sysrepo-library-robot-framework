@@ -180,9 +180,21 @@ class SysrepoLibrary(object):
         yangData.free()
 
     def xml_to_json(self, data: str) -> str:
+        """
+        Convert XML string to JSON
+
+        :arg data:
+            The new config data
+        """
         return json.dumps(xmltodict.parse(data))
 
     def is_json_empty(self, data: str) -> bool:
+        """
+        Check if a JSON string is empty
+
+        :arg data:
+            The new config data
+        """
         jobj = json.loads(data)
         return jobj.length() == 0
 
