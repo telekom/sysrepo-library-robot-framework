@@ -1,6 +1,6 @@
 [project]
 name = 	"robotframework-sysrepolibrary"
-version = "0.3.1"
+version = "0.4.1"
 description = "A testing library for Robot Framework that utilizes the Sysrepo tool internally"
 readme = { file = "README.md", content-type = "text/markdown" }
 
