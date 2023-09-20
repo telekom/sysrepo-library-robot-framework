@@ -199,6 +199,14 @@ class SysrepoLibrary(object):
         return jobj.length() == 0
 
     def is_data_empty(self, fmt: str, data: str) -> bool:
+        """
+        Check if the new datastore config is empty
+
+        :arg fmt:
+            Format of the returned data.
+        :arg data:
+            The new config data
+        """
         is_empty = False
 
         if fmt != self.FORMATS["xml"] and fmt != self.FORMATS["json"]:
